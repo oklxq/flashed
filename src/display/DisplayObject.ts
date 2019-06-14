@@ -2,7 +2,6 @@ import Graphics from "./Graphics";
 import Stage from "../core/Stage";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import EventDispatcher from "../events/EventDispatcher";
-import * as MouseEvent from "../events/MouseEvent";
 
 export default abstract class DisplayObject extends EventDispatcher {
     get mouseEnable(): Boolean {
@@ -89,17 +88,17 @@ export default abstract class DisplayObject extends EventDispatcher {
         this._y = value;
     }
 
-    private _width: number;
-    private _height: number;
-    private _x: number = 0;
-    private _y: number = 0;
-    private _rotation: number = 0;
-    private _scaleX: number = 1;
-    private _scaleY: number = 1;
-    private _stage: Stage;
-    private _parent: DisplayObjectContainer;
-    private _mouseEnable: Boolean = false;
-    private readonly _graphics: Graphics;
+    protected _width: number;
+    protected _height: number;
+    protected _x: number = 0;
+    protected _y: number = 0;
+    protected _rotation: number = 0;
+    protected _scaleX: number = 1;
+    protected _scaleY: number = 1;
+    protected _stage: Stage;
+    protected _parent: DisplayObjectContainer;
+    protected _mouseEnable: Boolean = true;
+    protected readonly _graphics: Graphics;
     public name: string;
 
     protected constructor() {

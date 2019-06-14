@@ -74,6 +74,7 @@ export default class Graphics {
             context.rotate(target.rotation);
             context.scale(target.scaleX, target.scaleY);
         }
+        let mouse = false;
         for (let dt of this._actions) {
             context.beginPath();
             const {x, y, width, height, type, fillStyle, lineWidth, lineStyle} = dt;
@@ -95,13 +96,15 @@ export default class Graphics {
             }
             context.closePath();
 
-            if (target && mouseEvent) {
+            if (target && target.mouseEnable && mouseEvent) {
                 const {offsetX, offsetY} = mouseEvent;
                 if (context.isPointInPath(offsetX, offsetY)) {
-                    target.dispatch(MouseEvent.CLICK, mouseEvent);
+                    mouse = true;
                 }
             }
         }
+
+        mouse && target.dispatch(mouseEvent.type, mouseEvent);
         context.restore();
     }
 }

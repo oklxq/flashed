@@ -1,7 +1,15 @@
 import DisplayObject from './DisplayObject';
 import List from '../data/List';
+import Stage from "../core/Stage";
 
 export class DisplayObjectContainer extends DisplayObject {
+    // public set stage(value: Stage) {
+    //     this._stage = value;
+    //     this._children.each(child => {
+    //         child.stage = value;
+    //     });
+    // }
+
     get children(): List<DisplayObject> {
         return this._children;
     }

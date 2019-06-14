@@ -1,7 +1,6 @@
 import Renderer from './Renderer';
 import {DisplayObjectContainer} from "../display/DisplayObjectContainer";
 import {ENTER_FRAME} from "../events/Event";
-import * as MouseEvent from "../events/MouseEvent";
 
 export default class Stage extends DisplayObjectContainer {
 
@@ -34,20 +33,13 @@ export default class Stage extends DisplayObjectContainer {
             requestAnimationFrame(fn);
         };
         requestAnimationFrame(fn);
-
-        this.display.addEventListener('click', evt => {
+        const handleMouse = evt => {
             this._backRenderer.mouseEvent = evt;
-        });
-        this.display.addEventListener('mousemove', evt => {
-            this.dispatch(MouseEvent.MOUSE_MOVE, evt);
-
-        });
-        this.display.addEventListener('mouseup', evt => {
-            this.dispatch(MouseEvent.MOUSE_UP, evt);
-        });
-        this.display.addEventListener('mousedown', evt => {
-            this.dispatch(MouseEvent.MOUSE_DOWN, evt);
-        });
+        };
+        this.display.addEventListener('click', handleMouse);
+        this.display.addEventListener('mousemove', handleMouse);
+        this.display.addEventListener('mouseup', handleMouse);
+        this.display.addEventListener('mousedown', handleMouse);
 
     }
 }

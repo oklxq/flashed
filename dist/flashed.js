@@ -99,18 +99,6 @@
         return Renderer;
     }());
 
-    var CLICK = Symbol();
-    var MOUSE_DOWN = Symbol();
-    var MOUSE_UP = Symbol();
-    var MOUSE_MOVE = Symbol();
-
-    var MouseEvent = /*#__PURE__*/Object.freeze({
-        CLICK: CLICK,
-        MOUSE_DOWN: MOUSE_DOWN,
-        MOUSE_UP: MOUSE_UP,
-        MOUSE_MOVE: MOUSE_MOVE
-    });
-
     var ACTION_RECT = Symbol();
     var ACTION_CIRCLE = Symbol();
     var Graphics = /** @class */ (function () {
@@ -155,6 +143,7 @@
                 context.rotate(target.rotation);
                 context.scale(target.scaleX, target.scaleY);
             }
+            var mouse = false;
             try {
                 for (var _b = __values(this._actions), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var dt = _c.value;
@@ -176,10 +165,10 @@
                         context.stroke();
                     }
                     context.closePath();
-                    if (target && mouseEvent) {
+                    if (target && target.mouseEnable && mouseEvent) {
                         var offsetX = mouseEvent.offsetX, offsetY = mouseEvent.offsetY;
                         if (context.isPointInPath(offsetX, offsetY)) {
-                            target.dispatch(CLICK, mouseEvent);
+                            mouse = true;
                         }
                     }
                 }
@@ -191,6 +180,7 @@
                 }
                 finally { if (e_1) throw e_1.error; }
             }
+            mouse && target.dispatch(mouseEvent.type, mouseEvent);
             context.restore();
         };
         return Graphics;
@@ -244,7 +234,7 @@
             _this._rotation = 0;
             _this._scaleX = 1;
             _this._scaleY = 1;
-            _this._mouseEnable = false;
+            _this._mouseEnable = true;
             _this._graphics = new Graphics();
             return _this;
         }
@@ -417,6 +407,12 @@
             return _this;
         }
         Object.defineProperty(DisplayObjectContainer.prototype, "children", {
+            // public set stage(value: Stage) {
+            //     this._stage = value;
+            //     this._children.each(child => {
+            //         child.stage = value;
+            //     });
+            // }
             get: function () {
                 return this._children;
             },
@@ -483,18 +479,13 @@
                 requestAnimationFrame(fn);
             };
             requestAnimationFrame(fn);
-            _this.display.addEventListener('click', function (evt) {
+            var handleMouse = function (evt) {
                 _this._backRenderer.mouseEvent = evt;
-            });
-            _this.display.addEventListener('mousemove', function (evt) {
-                _this.dispatch(MOUSE_MOVE, evt);
-            });
-            _this.display.addEventListener('mouseup', function (evt) {
-                _this.dispatch(MOUSE_UP, evt);
-            });
-            _this.display.addEventListener('mousedown', function (evt) {
-                _this.dispatch(MOUSE_DOWN, evt);
-            });
+            };
+            _this.display.addEventListener('click', handleMouse);
+            _this.display.addEventListener('mousemove', handleMouse);
+            _this.display.addEventListener('mouseup', handleMouse);
+            _this.display.addEventListener('mousedown', handleMouse);
             return _this;
         }
         Object.defineProperty(Stage.prototype, "renderer", {
@@ -526,7 +517,6 @@
         Stage: Stage,
         Sprite: Sprite,
         Event: Event,
-        MouseEvent: MouseEvent
     };
 
     return index;

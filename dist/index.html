@@ -40,8 +40,8 @@
         sp.vx = Math.random() * 10 - 5;
         sp.vy = Math.random() * 10 - 5;
     }
-    arr[0].addEventListener(flashed.MouseEvent.CLICK,()=>{
-        console.log(222);
+    arr[0].addEventListener('click', (evt) => {
+        console.log(evt);
     });
     stage.addEventListener(flashed.Event.ENTER_FRAME, () => {
         return;
