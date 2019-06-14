@@ -1,0 +1,15 @@
+{
+  "name": "flashed",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "devDependencies": {
+    "rollup": "^1.15.3",
+    "rollup-plugin-typescript2": "^0.21.1",
+    "typescript": "^3.5.2"
+  }
+}

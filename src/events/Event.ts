@@ -1,0 +1,1 @@
+export const ENTER_FRAME: Symbol = Symbol();
